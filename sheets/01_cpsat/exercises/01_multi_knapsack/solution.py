@@ -33,6 +33,16 @@ class MultiKnapsackSolver:
         self.solver.parameters.log_search_progress = True
         # TODO: Implement me!
 
+        self.ks = []
+
+        for k in range(len(self.capacities)):
+            self.ks.append([self.model.NewBoolVar(f"ks_{k}_{i}") for i in range(len(self.items))])
+            self.model.add(sum(x * i.weight for x, i in zip(self.ks[k], self.items)) <= self.capacities[k])
+
+        for i in range(len(self.items)):
+            self.model.add(sum(self.ks[k][i] for k in range(len(self.capacities))) <= 1)
+
+        self.model.Maximize(sum([sum(x * i.value for x, i in zip(self.ks[k], self.items)) for k in range(len(self.capacities))]))
 
 
     def solve(self, timelimit: float = math.inf) -> Solution:
@@ -51,4 +61,11 @@ class MultiKnapsackSolver:
         elif timelimit < math.inf:
             self.solver.parameters.max_time_in_seconds = timelimit
         # TODO: Implement me!
-        return Solution(knapsacks=[])  # empty solution
+        status = self.solver.Solve(self.model)
+        
+        sol = []
+        for k in range(len(self.capacities)):
+            ks = [i for i, x in zip(self.items, self.ks[k]) if self.solver.Value(x)]
+            sol.append(ks)
+
+        return Solution(knapsacks=sol)  # empty solution

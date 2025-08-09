@@ -47,6 +47,16 @@ file here._
 
 <!-- ADD YOUR ANSWER HERE -->
 
+$$\max \sum_{k \in K} \sum_{i \in I} v_i ks_{k,i}$$
+
+$$\text{s.t.} $$
+
+$$\forall k \in K, \sum_{i \in I} w_i ks_{k,i} \le C_k$$
+
+$$\forall i \in I, \sum_{k \in K} ks_{k,i} \le 1$$
+
+$$\forall k, i \in K,I, ks_{k,i} \in [0,1]$$
+
 ### Implementation of a Solver in CP-SAT
 
 Next, we want to solve the problem using CP-SAT. This problem is actually
