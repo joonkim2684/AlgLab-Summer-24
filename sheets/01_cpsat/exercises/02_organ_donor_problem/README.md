@@ -72,6 +72,15 @@ file here._
 
 <!-- ADD YOUR ANSWER HERE -->
 
+Variables: Boolean Give(d,r) for each valid (d,r) pair
+Objective: Max{sum(Give(d,r) over (d,r)}
+Constraints: 
+sum(Give(D, r) over r) <= 1 for each donor D [A donor can only donate once]
+sum(Give(d, R) over d) <= 1 for each recipient R [A recipient can only receive one organ]
+sum(Give(D, r) over r) <= sum(sum(Give(d, R) over d) over valid (D,R)) for each donor D [A donor is only silling to donate if their recipient receives an organ]
+
+or formulate as a flow problem?
+
 ### Implementation of a Solver in CP-SAT
 
 2. Implement a solver for the problem using CP-SAT. You find a small code
